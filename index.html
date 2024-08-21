@@ -17,6 +17,7 @@
             <div id="menu-content" class="menu-content">
                 <label>Select Theme:</label>
                 <div id="theme-selector">
+                    <span class="mana-icon" onclick="setTheme('')">&#xe623;</span> <!-- Colorless -->
                     <span class="mana-icon" onclick="setTheme('theme-white')">&#xe600;</span> <!-- White -->
                     <span class="mana-icon" onclick="setTheme('theme-blue')">&#xe601;</span> <!-- Blue -->
                     <span class="mana-icon" onclick="setTheme('theme-black')">&#xe602;</span> <!-- Black -->
@@ -60,6 +61,14 @@
         <textarea id="csv-output" readonly></textarea>
         <div id="card-popup" class="card-popup"></div>
     </div>
+
+    <footer>
+        <p>
+            <a href="https://github.com/cfultz/mtgcsv" target="_blank">View on GitHub</a> | 
+            This app is not affiliated with Wizards of the Coast or Hasbro. All rights and trademarks are owned by their respective owners.
+        </p>
+    </footer>
+
     <script type="module" src="app.js"></script>
 </body>
 </html>
