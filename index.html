@@ -37,12 +37,12 @@
                     <option value="Yes">Yes</option>
                 </select>
             </div>
-            <button type="button" onclick="addCard()">Add Card</button>
+            <button type="button" id="add-card-button">Add Card</button>
         </form>
-        <button onclick="downloadCSV()">Download CSV</button>
+        <button id="download-csv-button">Download CSV</button>
         <textarea id="csv-output" readonly></textarea>
         <div id="card-popup" class="card-popup"></div>
     </div>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>

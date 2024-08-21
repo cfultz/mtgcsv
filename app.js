@@ -1,24 +1,26 @@
+import { randomWords } from './randomWords.js';
+
 let cardList = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('dark-mode-toggle');
-    
-    toggle.addEventListener('change', () => {
-        if (toggle.checked) {
-            document.documentElement.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark-mode');
-            localStorage.setItem('theme', 'light');
-        }
-    });
+    document.getElementById('add-card-button').addEventListener('click', addCard);
+    document.getElementById('download-csv-button').addEventListener('click', downloadCSV);
 
-    // Load the saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark-mode');
-        toggle.checked = true;
-    }
+    document.getElementById('card-name').addEventListener('input', async function() {
+        const query = this.value;
+        const suggestions = await fetchCardSuggestions(query);
+        const suggestionsDiv = document.getElementById('suggestions');
+        suggestionsDiv.innerHTML = '';
+        suggestions.forEach(suggestion => {
+            const div = document.createElement('div');
+            div.textContent = suggestion;
+            div.onclick = () => {
+                document.getElementById('card-name').value = suggestion;
+                suggestionsDiv.innerHTML = '';
+            };
+            suggestionsDiv.appendChild(div);
+        });
+    });
 });
 
 async function fetchCardSuggestions(query) {
@@ -26,22 +28,6 @@ async function fetchCardSuggestions(query) {
     const data = await response.json();
     return data.data;
 }
-
-document.getElementById('card-name').addEventListener('input', async function() {
-    const query = this.value;
-    const suggestions = await fetchCardSuggestions(query);
-    const suggestionsDiv = document.getElementById('suggestions');
-    suggestionsDiv.innerHTML = '';
-    suggestions.forEach(suggestion => {
-        const div = document.createElement('div');
-        div.textContent = suggestion;
-        div.onclick = () => {
-            document.getElementById('card-name').value = suggestion;
-            suggestionsDiv.innerHTML = '';
-        };
-        suggestionsDiv.appendChild(div);
-    });
-});
 
 async function fetchCardDetails(cardName, setCode) {
     const response = await fetch(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cardName)}&set=${encodeURIComponent(setCode)}`);
@@ -128,8 +114,18 @@ async function showCardPopup(cardName, setCode) {
     }
 }
 
-function downloadCSV() {
+function getRandomWordsFromFile() {
+    let randomWordsSelected = [];
+    for (let i = 0; i < 3; i++) {  // Get three random words
+        const randomIndex = Math.floor(Math.random() * randomWords.length);
+        randomWordsSelected.push(randomWords[randomIndex]);
+    }
+    return randomWordsSelected.join('_');
+}
+
+async function downloadCSV() {
     const csvContent = generateCSVContent();
+    const randomFileName = getRandomWordsFromFile();
 
     // Create a blob with the CSV content
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -138,7 +134,7 @@ function downloadCSV() {
     // Create a temporary link element
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", "mtg_cards.csv");
+    link.setAttribute("download", `${randomFileName}.csv`);
     document.body.appendChild(link);
 
     // Trigger the download
