@@ -1,9 +1,33 @@
-import { randomWords } from './randomWords.js';
+// Define setTheme globally to handle theme changes
+window.setTheme = function setTheme(theme) {
+    document.body.className = ''; // Clear existing themes
+    document.body.classList.add(theme);
+
+    // Save the selected theme to localStorage
+    localStorage.setItem('selectedTheme', theme);
+};
 
 let cardList = [];
 let soundThreshold = 1.00;  // Default sound threshold
 
+// Make toggleMenu globally accessible
+window.toggleMenu = function toggleMenu() {
+    const menuContent = document.getElementById('menu-content');
+    menuContent.classList.toggle('show');
+};
+
 document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+        setTheme(savedTheme);
+    }
+
+    const savedThreshold = localStorage.getItem('soundThreshold');
+    if (savedThreshold) {
+        soundThreshold = parseFloat(savedThreshold);
+        document.getElementById('sound-threshold').value = savedThreshold;
+    }
+
     document.getElementById('add-card-button').addEventListener('click', addCard);
     document.getElementById('download-csv-button').addEventListener('click', downloadCSV);
 
@@ -26,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update sound threshold based on user input
     document.getElementById('sound-threshold').addEventListener('input', (event) => {
         soundThreshold = parseFloat(event.target.value);
+        localStorage.setItem('soundThreshold', soundThreshold); // Save the threshold to localStorage
     });
 
     // Check and apply dark mode
@@ -34,12 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('dark-mode');
     }
 });
-
-// Make toggleMenu globally accessible
-window.toggleMenu = function toggleMenu() {
-    const menuContent = document.getElementById('menu-content');
-    menuContent.classList.toggle('show');
-};
 
 async function fetchCardSuggestions(query) {
     const response = await fetch(`https://api.scryfall.com/cards/autocomplete?q=${encodeURIComponent(query)}`);

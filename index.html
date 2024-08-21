@@ -8,12 +8,21 @@
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
     <link rel="icon" href="icon.png" type="image/png">
+    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="container">
         <div class="menu">
             <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
             <div id="menu-content" class="menu-content">
+                <label>Select Theme:</label>
+                <div id="theme-selector">
+                    <span class="mana-icon" onclick="setTheme('theme-white')">&#xe600;</span> <!-- White -->
+                    <span class="mana-icon" onclick="setTheme('theme-blue')">&#xe601;</span> <!-- Blue -->
+                    <span class="mana-icon" onclick="setTheme('theme-black')">&#xe602;</span> <!-- Black -->
+                    <span class="mana-icon" onclick="setTheme('theme-red')">&#xe603;</span> <!-- Red -->
+                    <span class="mana-icon" onclick="setTheme('theme-green')">&#xe604;</span> <!-- Green -->
+                </div>
                 <label for="sound-threshold">Sound Threshold (USD):</label>
                 <input type="number" id="sound-threshold" min="0.01" step="0.01" value="1.00">
             </div>

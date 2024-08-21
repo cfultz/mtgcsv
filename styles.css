@@ -6,6 +6,89 @@
     --button-hover: #005fa3;
 }
 
+.theme-white {
+    --background-color: #f9f8f6;
+    --text-color: #1e1e1e;
+    --card-background: #ffffff;
+    --button-background: #e5e5e5;
+    --button-hover: #cccccc;
+}
+
+.theme-blue {
+    --background-color: #d7e7f9;
+    --text-color: #002d72;
+    --card-background: #e0f2ff;
+    --button-background: #007acc;
+    --button-hover: #005fa3;
+}
+
+.theme-black {
+    --background-color: #333333;
+    --text-color: #ffffff;
+    --card-background: #444444;
+    --button-background: #1f1f1f;
+    --button-hover: #000000;
+}
+
+.theme-red {
+    --background-color: #fbe4e4;
+    --text-color: #8b0000;
+    --card-background: #ffe5e5;
+    --button-background: #d32f2f;
+    --button-hover: #b71c1c;
+}
+
+.theme-green {
+    --background-color: #e7f4e7;
+    --text-color: #004d00;
+    --card-background: #e0ffe0;
+    --button-background: #388e3c;
+    --button-hover: #2e7d32;
+}
+
+@media (prefers-color-scheme: dark) {
+    .theme-white {
+        --background-color: #1e1e1e;
+        --text-color: #ffffff;
+        --card-background: #333333;
+        --button-background: #555555;
+        --button-hover: #777777;
+    }
+
+    .theme-blue {
+        --background-color: #001f3f;
+        --text-color: #ffffff;
+        --card-background: #002d72;
+        --button-background: #005fa3;
+        --button-hover: #007acc;
+    }
+
+    .theme-black {
+        --background-color: #000000;
+        --text-color: #e5e5e5;
+        --card-background: #1c1c1c;
+        --button-background: #333333;
+        --button-hover: #555555;
+    }
+
+    .theme-red {
+        --background-color: #330000;
+        --text-color: #ffaaaa;
+        --card-background: #8b0000;
+        --button-background: #b71c1c;
+        --button-hover: #d32f2f;
+    }
+
+    .theme-green {
+        --background-color: #002200;
+        --text-color: #ccffcc;
+        --card-background: #004d00;
+        --button-background: #2e7d32;
+        --button-hover: #388e3c;
+    }
+}
+
+
 @media (prefers-color-scheme: dark) {
     :root {
         --background-color: #1e1e1e;
@@ -14,6 +97,44 @@
         --button-background: #1f6fb2;
         --button-hover: #145b8c;
     }
+}
+
+.mana-icon {
+    font-family: 'mana', sans-serif;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.mana-icon:hover {
+    opacity: 0.8;
+}
+
+/* Ensure the menu follows the theme */
+body.theme-white .menu-content {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+body.theme-blue .menu-content {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+body.theme-black .menu-content {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+body.theme-red .menu-content {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+body.theme-green .menu-content {
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 body {
