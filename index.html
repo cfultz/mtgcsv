@@ -1,28 +1,33 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MTG Card CSV Generator</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
-    <link rel="icon" href="icon.png" type="image/png">
-    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="container">
         <div class="menu">
-            <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
+            <div class="hamburger-menu" id="hamburger-menu">☰</div>
             <div id="menu-content" class="menu-content">
                 <label>Select Theme:</label>
                 <div id="theme-selector">
-                    <span class="mana-icon" onclick="setTheme('')">&#xe623;</span> <!-- Colorless -->
-                    <span class="mana-icon" onclick="setTheme('theme-white')">&#xe600;</span> <!-- White -->
-                    <span class="mana-icon" onclick="setTheme('theme-blue')">&#xe601;</span> <!-- Blue -->
-                    <span class="mana-icon" onclick="setTheme('theme-black')">&#xe602;</span> <!-- Black -->
-                    <span class="mana-icon" onclick="setTheme('theme-red')">&#xe603;</span> <!-- Red -->
-                    <span class="mana-icon" onclick="setTheme('theme-green')">&#xe604;</span> <!-- Green -->
+                    <span class="mana-icon" data-theme="" onclick="setTheme('')">&#xe623;</span> <!-- Colorless -->
+                    <span class="mana-icon" data-theme="theme-white" onclick="setTheme('theme-white')">&#xe600;</span> <!-- White -->
+                    <span class="mana-icon" data-theme="theme-blue" onclick="setTheme('theme-blue')">&#xe601;</span> <!-- Blue -->
+                    <span class="mana-icon" data-theme="theme-black" onclick="setTheme('theme-black')">&#xe602;</span> <!-- Black -->
+                    <span class="mana-icon" data-theme="theme-red" onclick="setTheme('theme-red')">&#xe603;</span> <!-- Red -->
+                    <span class="mana-icon" data-theme="theme-green" onclick="setTheme('theme-green')">&#xe604;</span> <!-- Green -->
                 </div>
                 <label for="sound-threshold">Sound Threshold (USD):</label>
                 <input type="number" id="sound-threshold" min="0.01" step="0.01" value="1.00">
@@ -30,6 +35,7 @@
         </div>
 
         <h1>MTG Card CSV Generator</h1>
+
         <form id="card-form">
             <div>
                 <label for="card-name">Card Name:</label>
@@ -57,9 +63,23 @@
             </div>
             <button type="button" id="add-card-button">Add Card</button>
         </form>
-        <button id="download-csv-button">Download CSV</button>
+
+        <div class="action-buttons">
+            <button id="download-csv-button">Download CSV</button>
+            <button id="save-collection-button">Save Collection</button>
+            <button id="clear-collection-button">Clear Collection</button>
+        </div>
+
         <textarea id="csv-output" readonly></textarea>
-        <div id="card-popup" class="card-popup"></div>
+
+        <div id="card-popup" class="card-popup">
+            <img id="card-popup-image" src="" alt="Card Image">
+        </div>
+
+        <div id="zoom-modal" class="zoom-modal">
+            <span id="close-modal" class="close-modal">&times;</span>
+            <img id="zoomed-image" class="zoomed-image" src="" alt="">
+        </div>
     </div>
 
     <footer>
@@ -69,11 +89,22 @@
         </p>
     </footer>
 
-    <script type="module" src="app.js"></script>
+    <!-- Scripts -->
+    <script type="module" src="js/theme.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/card.js"></script>
+    <script type="module" src="js/storage.js"></script>
+    <script type="module" src="js/csv.js"></script>
+    <script type="module" src="js/popup.js"></script>
+
     <script>
-        if (typeof navigator.serviceWorker !== 'undefined') {
-          navigator.serviceWorker.register('sw.js')
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('js/sw.js').then(function(registration) {
+                console.log('Service Worker registered with scope:', registration.scope);
+            }).catch(function(error) {
+                console.error('Service Worker registration failed:', error);
+            });
         }
-      </script>
+    </script>
 </body>
 </html>

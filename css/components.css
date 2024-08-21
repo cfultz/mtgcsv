@@ -1,0 +1,106 @@
+/* components.css */
+.mana-icon {
+    font-family: 'mana', sans-serif;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.mana-icon:hover {
+    opacity: 0.8;
+}
+
+
+.menu {
+    position: relative;
+    display: inline-block;
+}
+
+.hamburger-menu {
+    cursor: pointer;
+    font-size: 30px;
+    color: var(--text-color);
+}
+
+.menu-content {
+    display: none;  /* Ensure it's hidden by default */
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: var(--background-color);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1;
+    min-width: 150px;
+    border-radius: 4px;
+}
+
+.menu-content.show {
+    display: block;  /* Display menu when toggled */
+}
+
+.zoom-modal {
+    display: none; /* Ensure modal is hidden by default */
+    position: fixed;
+    z-index: 1000;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.zoomed-image {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Dark mode styles */
+/* Dark mode styles */
+body.dark-mode .menu-content {
+    background-color: #333;
+}
+
+body.dark-mode .hamburger-menu,
+body.dark-mode .menu-content label,
+body.dark-mode .menu-content input {
+    color: white;
+}
+
+.card-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 20%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: none;
+}
+
+.card-popup img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+    .card-popup {
+        max-width: 40%;
+    }
+}
+
+@media (max-width: 400px) {
+    .card-popup {
+        max-width: 60%;
+    }
+}
