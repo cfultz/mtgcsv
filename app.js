@@ -48,39 +48,59 @@ async function fetchCardSuggestions(query) {
 }
 
 async function fetchCardDetails(cardName, setCode) {
+    // Use the Scryfall 'named' endpoint to fetch the exact card by name and set code
     const response = await fetch(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cardName)}&set=${encodeURIComponent(setCode)}`);
     const data = await response.json();
+
+    console.log('Fetched Data:', data);  // Debugging: Log the fetched data
+
+    // Return the relevant card details
     return {
+        set: data.set.toUpperCase(),
+        card_id: data.collector_number,
         mana_cost: data.mana_cost || 'N/A',
         power: data.power || 'N/A',
         toughness: data.toughness || 'N/A',
-        type: data.type_line.split('—')[0].trim(), // Remove anything after em dash
+        type: data.type_line.split('—')[0].trim(),
         rarity: data.rarity || 'N/A',
-        price: data.prices.usd || '0.00',  // Fetching the price in USD
-        imageUrl: data.image_uris ? data.image_uris.small : null
+        price: data.prices.usd || '0.00',
+        imageUrl: data.image_uris ? data.image_uris.small : null,
+        name: data.name
     };
 }
 
 async function addCard() {
     const cardName = document.getElementById('card-name').value;
     const setCode = document.getElementById('set-code').value;
-    const cardId = document.getElementById('card-id').value;
+
+    // Fetch card details using the card name and set code
+    const cardDetails = await fetchCardDetails(cardName, setCode);
+
+    if (cardDetails) {
+        updateCardDetails(cardDetails);
+    } else {
+        alert("Card not found with the given name and set code.");
+    }
+}
+
+function updateCardDetails(printing) {
+    document.getElementById('set-code').value = printing.set;
+    document.getElementById('card-id').value = printing.card_id;
+
     const quantity = document.getElementById('quantity').value;
     const foil = document.getElementById('foil').value;
 
-    const cardDetails = await fetchCardDetails(cardName, setCode);
-
     const cardData = {
-        name: cardName,
-        set: setCode,
-        card_id: cardId,
+        name: document.getElementById('card-name').value,
+        set: printing.set,
+        card_id: printing.card_id,
         quantity: quantity,
         foil: foil,
-        mana_type: cardDetails.mana_cost,
-        power: cardDetails.power,
-        toughness: cardDetails.toughness,
-        type: cardDetails.type,
-        rarity: cardDetails.rarity
+        mana_type: printing.mana_cost,
+        power: printing.power,
+        toughness: printing.toughness,
+        type: printing.type,
+        rarity: printing.rarity
     };
 
     cardList.push(cardData);
@@ -90,7 +110,7 @@ async function addCard() {
     document.getElementById('csv-output').value = csvContent;
 
     // Show the card image, name, and price in the dissolving popup
-    showCardPopup(cardName, cardDetails.imageUrl, cardDetails.price);
+    showCardPopup(cardData.name, printing.imageUrl, printing.price);
 }
 
 function generateCSVContent() {

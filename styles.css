@@ -17,7 +17,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Sorts Mill Goudy', serif;
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
@@ -36,7 +36,6 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 20px;
-    font-family: 'Sorts Mill Goudy', serif;
 }
 
 form div {
@@ -113,6 +112,7 @@ button:hover {
         max-width: 60%;
     }
 }
+
 .menu {
     position: relative;
     display: inline-block;
@@ -121,25 +121,25 @@ button:hover {
 .hamburger-menu {
     cursor: pointer;
     font-size: 30px;
-    color: var(--text-color, black); /* Ensure the color follows the theme */
+    color: var(--text-color);
 }
 
 .menu-content {
     display: none;
     position: absolute;
     top: 40px;
-    left: 0; /* Change to left for opposite direction */
-    background-color: var(--background-color, white); /* Background color follows the theme */
+    left: 0;
+    background-color: var(--background-color);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     padding: 10px;
     z-index: 1;
     min-width: 150px;
+    border-radius: 4px;
 }
 
 .menu-content label,
 .menu-content input {
-    color: var(--text-color, black); /* Text color follows the theme */
-    font-family: 'Sorts Mill Goudy', serif;
+    color: var(--text-color);
 }
 
 .menu-content.show {
@@ -148,13 +148,11 @@ button:hover {
 
 /* Dark mode styles */
 body.dark-mode .menu-content {
-    background-color: #333; /* Dark background for dark mode */
+    background-color: #333;
 }
 
 body.dark-mode .hamburger-menu,
 body.dark-mode .menu-content label,
 body.dark-mode .menu-content input {
-    color: white; /* White text for dark mode */
+    color: white;
 }
-
-
