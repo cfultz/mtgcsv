@@ -101,7 +101,7 @@ async function fetchCardDetails(cardName, setCode) {
     const response = await fetch(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cardName)}&set=${encodeURIComponent(setCode)}`);
     const data = await response.json();
 
-    console.log('Fetched Data:', data);  // Debugging: Log the fetched data
+    console.log('Fetched Data from Scryfall:', data);  // Debugging: Log the fetched data
 
     // Return the relevant card details
     return {
