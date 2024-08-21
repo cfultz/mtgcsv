@@ -90,17 +90,45 @@ async function fetchCardDetails(cardName, setCode) {
 
 async function addCard() {
     const cardName = document.getElementById('card-name').value;
-    const setCode = document.getElementById('set-code').value;
+    const setCodeInput = document.getElementById('set-code');
+    const cardIdInput = document.getElementById('card-id');
 
     // Fetch card details using the card name and set code
+    let setCode = setCodeInput.value;
+    let cardId = cardIdInput.value;
+
+    // Always fetch card details
     const cardDetails = await fetchCardDetails(cardName, setCode);
 
     if (cardDetails) {
-        updateCardDetails(cardDetails);
+        // If set code or card ID is not filled, auto-fill them
+        if (!setCode) {
+            setCode = cardDetails.set;
+            setCodeInput.value = setCode;
+        }
+        if (!cardId) {
+            cardId = cardDetails.card_id;
+            cardIdInput.value = cardId;
+        }
+        
+        // Update card details with either user input or fetched data
+        updateCardDetails({
+            name: cardName,
+            set: setCode,
+            card_id: cardId,
+            mana_cost: cardDetails.mana_cost,
+            power: cardDetails.power,
+            toughness: cardDetails.toughness,
+            type: cardDetails.type,
+            rarity: cardDetails.rarity,
+            price: cardDetails.price,
+            imageUrl: cardDetails.imageUrl
+        });
     } else {
-        alert("Card not found with the given name and set code.");
+        alert("Card not found with the given name.");
     }
 }
+
 
 function updateCardDetails(printing) {
     document.getElementById('set-code').value = printing.set;

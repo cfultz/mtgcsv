@@ -6,6 +6,14 @@
     --button-hover: #005fa3;
 }
 
+.material-theme {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --card-background: #f8f8f8;
+    --button-background: #6200ee;
+    --button-hover: #3700b3;
+}
+
 .theme-white {
     --background-color: #f9f8f6;
     --text-color: #1e1e1e;
@@ -86,6 +94,7 @@
         --button-background: #2e7d32;
         --button-hover: #388e3c;
     }
+    
 }
 
 

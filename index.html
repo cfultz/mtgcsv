@@ -30,34 +30,45 @@
         </div>
 
         <h1>MTG Card CSV Generator</h1>
-        <form id="card-form">
-            <div>
-                <label for="card-name">Card Name:</label>
-                <input type="text" id="card-name" autocomplete="off" required>
-                <div id="suggestions"></div>
+        <form id="card-form" class="mdc-card">
+            <div class="mdc-text-field mdc-text-field--outlined">
+                <input type="text" id="card-name" class="mdc-text-field__input" autocomplete="off" required>
+                <label class="mdc-floating-label" for="card-name">Card Name</label>
+                <div class="mdc-line-ripple"></div>
             </div>
-            <div>
-                <label for="set-code">Set Code:</label>
-                <input type="text" id="set-code" required>
+        
+            <div class="mdc-text-field mdc-text-field--outlined">
+                <input type="text" id="set-code" class="mdc-text-field__input" required>
+                <label class="mdc-floating-label" for="set-code">Set Code</label>
+                <div class="mdc-line-ripple"></div>
             </div>
-            <div>
-                <label for="card-id">Card ID:</label>
-                <input type="text" id="card-id" required>
+        
+            <div class="mdc-text-field mdc-text-field--outlined">
+                <input type="text" id="card-id" class="mdc-text-field__input" required>
+                <label class="mdc-floating-label" for="card-id">Card ID</label>
+                <div class="mdc-line-ripple"></div>
             </div>
-            <div>
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" min="1" value="1" required>
+        
+            <div class="mdc-text-field mdc-text-field--outlined">
+                <input type="number" id="quantity" class="mdc-text-field__input" min="1" value="1" required>
+                <label class="mdc-floating-label" for="quantity">Quantity</label>
+                <div class="mdc-line-ripple"></div>
             </div>
-            <div>
-                <label for="foil">Is it Foil?</label>
-                <select id="foil">
+        
+            <div class="mdc-select">
+                <select id="foil" class="mdc-select__native-control">
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
                 </select>
+                <label class="mdc-floating-label">Is it Foil?</label>
+                <div class="mdc-line-ripple"></div>
             </div>
-            <button type="button" id="add-card-button">Add Card</button>
+        
+            <button type="button" class="mdc-button mdc-button--raised" id="add-card-button">Add Card</button>
         </form>
-        <button id="download-csv-button">Download CSV</button>
+        
+        <button class="mdc-button mdc-button--outlined" id="download-csv-button">Download CSV</button>
+        
         <textarea id="csv-output" readonly></textarea>
         <div id="card-popup" class="card-popup"></div>
     </div>
@@ -75,5 +86,6 @@
           navigator.serviceWorker.register('sw.js')
         }
       </script>
+      
 </body>
 </html>
