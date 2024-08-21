@@ -61,10 +61,40 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchCardSuggestions(query) {
-    const response = await fetch(`https://api.scryfall.com/cards/autocomplete?q=${encodeURIComponent(query)}`);
-    const data = await response.json();
-    return data.data;
+    try {
+        const response = await fetch(`https://api.scryfall.com/cards/autocomplete?q=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        return [];
+    }
 }
+
+document.getElementById('card-name').addEventListener('input', async function() {
+    const query = this.value.trim();
+    if (query.length < 2) { // Only search for queries longer than 1 character
+        document.getElementById('suggestions').innerHTML = '';
+        return;
+    }
+    const suggestions = await fetchCardSuggestions(query);
+    const suggestionsDiv = document.getElementById('suggestions');
+    suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+
+    suggestions.forEach(suggestion => {
+        const div = document.createElement('div');
+        div.textContent = suggestion;
+        div.onclick = () => {
+            document.getElementById('card-name').value = suggestion;
+            suggestionsDiv.innerHTML = ''; // Clear suggestions after selection
+        };
+        suggestionsDiv.appendChild(div);
+    });
+});
+
 
 async function fetchCardDetails(cardName, setCode) {
     // Use the Scryfall 'named' endpoint to fetch the exact card by name and set code
