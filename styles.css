@@ -113,3 +113,48 @@ button:hover {
         max-width: 60%;
     }
 }
+.menu {
+    position: relative;
+    display: inline-block;
+}
+
+.hamburger-menu {
+    cursor: pointer;
+    font-size: 30px;
+    color: var(--text-color, black); /* Ensure the color follows the theme */
+}
+
+.menu-content {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0; /* Change to left for opposite direction */
+    background-color: var(--background-color, white); /* Background color follows the theme */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1;
+    min-width: 150px;
+}
+
+.menu-content label,
+.menu-content input {
+    color: var(--text-color, black); /* Text color follows the theme */
+    font-family: 'Sorts Mill Goudy', serif;
+}
+
+.menu-content.show {
+    display: block;
+}
+
+/* Dark mode styles */
+body.dark-mode .menu-content {
+    background-color: #333; /* Dark background for dark mode */
+}
+
+body.dark-mode .hamburger-menu,
+body.dark-mode .menu-content label,
+body.dark-mode .menu-content input {
+    color: white; /* White text for dark mode */
+}
+
+

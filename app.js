@@ -1,6 +1,7 @@
 import { randomWords } from './randomWords.js';
 
 let cardList = [];
+let soundThreshold = 1.00;  // Default sound threshold
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('add-card-button').addEventListener('click', addCard);
@@ -21,7 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
             suggestionsDiv.appendChild(div);
         });
     });
+
+    // Update sound threshold based on user input
+    document.getElementById('sound-threshold').addEventListener('input', (event) => {
+        soundThreshold = parseFloat(event.target.value);
+    });
+
+    // Check and apply dark mode
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    }
 });
+
+// Make toggleMenu globally accessible
+window.toggleMenu = function toggleMenu() {
+    const menuContent = document.getElementById('menu-content');
+    menuContent.classList.toggle('show');
+};
 
 async function fetchCardSuggestions(query) {
     const response = await fetch(`https://api.scryfall.com/cards/autocomplete?q=${encodeURIComponent(query)}`);
@@ -37,7 +55,9 @@ async function fetchCardDetails(cardName, setCode) {
         power: data.power || 'N/A',
         toughness: data.toughness || 'N/A',
         type: data.type_line.split('—')[0].trim(), // Remove anything after em dash
-        rarity: data.rarity || 'N/A'
+        rarity: data.rarity || 'N/A',
+        price: data.prices.usd || '0.00',  // Fetching the price in USD
+        imageUrl: data.image_uris ? data.image_uris.small : null
     };
 }
 
@@ -69,8 +89,8 @@ async function addCard() {
     let csvContent = generateCSVContent();
     document.getElementById('csv-output').value = csvContent;
 
-    // Show the card image in the dissolving popup
-    showCardPopup(cardName, setCode);
+    // Show the card image, name, and price in the dissolving popup
+    showCardPopup(cardName, cardDetails.imageUrl, cardDetails.price);
 }
 
 function generateCSVContent() {
@@ -93,25 +113,36 @@ function generateCSVContent() {
     return csvContent;
 }
 
-async function showCardPopup(cardName, setCode) {
+async function showCardPopup(cardName, imageUrl, price) {
     const cardPopup = document.getElementById('card-popup');
-    const response = await fetch(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cardName)}&set=${encodeURIComponent(setCode)}`);
-    const data = await response.json();
-    const imageUrl = data.image_uris ? data.image_uris.small : null;
+    cardPopup.innerHTML = `
+        <div style="font-family: 'Sorts Mill Goudy', serif; text-align: center;">
+            <strong>${cardName}</strong>
+        </div>
+        <img src="${imageUrl}" alt="${cardName}">
+        <div style="font-family: 'Sorts Mill Goudy', serif; text-align: center; margin-top: 10px;">
+            Price: $${price}
+        </div>
+    `;
+    cardPopup.style.display = 'block';
+    cardPopup.style.opacity = 1;
 
-    if (imageUrl) {
-        cardPopup.innerHTML = `<img src="${imageUrl}" alt="${cardName}">`;
-        cardPopup.style.display = 'block';
-        cardPopup.style.opacity = 1;
-
-        // Dissolve the popup after a few seconds
-        setTimeout(() => {
-            cardPopup.style.opacity = 0;
-            setTimeout(() => {
-                cardPopup.style.display = 'none';
-            }, 500);
-        }, 3000);
+    if (parseFloat(price) >= soundThreshold) {
+        playSound();
     }
+
+    // Dissolve the popup after a few seconds
+    setTimeout(() => {
+        cardPopup.style.opacity = 0;
+        setTimeout(() => {
+            cardPopup.style.display = 'none';
+        }, 500);
+    }, 3000);
+}
+
+function playSound() {
+    const audio = new Audio('cash-money.mp3');
+    audio.play();
 }
 
 function getRandomWordsFromFile() {
@@ -120,7 +151,7 @@ function getRandomWordsFromFile() {
         const randomIndex = Math.floor(Math.random() * randomWords.length);
         randomWordsSelected.push(randomWords[randomIndex]);
     }
-    return randomWordsSelected.join('_');
+    return randomWordsSelected.join('-');
 }
 
 async function downloadCSV() {
