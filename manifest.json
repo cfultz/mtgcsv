@@ -17,6 +17,13 @@
         "sizes": "512x512",
         "type": "image/png"
       }
+    ],
+    "id": "pro.cfultz.mtgcsv",
+    "dir": "auto",
+    "lang": "en",
+    "orientation": "any",
+    "categories": [
+      "games",
+      "utilities"
     ]
   }
-  
