@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTG Card CSV Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>MTG Card CSV Generator</h1>
+        <form id="card-form">
+            <div>
+                <label for="card-name">Card Name:</label>
+                <input type="text" id="card-name" autocomplete="off" required>
+                <div id="suggestions"></div>
+            </div>
+            <div>
+                <label for="set-code">Set Code:</label>
+                <input type="text" id="set-code" required>
+            </div>
+            <div>
+                <label for="card-id">Card ID:</label>
+                <input type="text" id="card-id" required>
+            </div>
+            <div>
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" min="1" value="1" required>
+            </div>
+            <div>
+                <label for="foil">Is it Foil?</label>
+                <select id="foil">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                </select>
+            </div>
+            <button type="button" onclick="addCard()">Add Card</button>
+        </form>
+        <button onclick="downloadCSV()">Download CSV</button>
+        <textarea id="csv-output" readonly></textarea>
+        <div id="card-popup" class="card-popup"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
